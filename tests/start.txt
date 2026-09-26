@@ -1,0 +1,5 @@
+conf-dump
+cd -l -a
+kdsajgvnds
+ls
+cd ../..
