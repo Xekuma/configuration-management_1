@@ -1,5 +1,0 @@
-﻿conf-dump
-ls -l
-cd ..
-cd
-exit

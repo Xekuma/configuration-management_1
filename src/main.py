@@ -65,9 +65,17 @@ def run_script(script_path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Эмулятор командной оболочки ОС")
-    parser.add_argument('--vfs', type=str, help='Путь к физическому расположению VFS')
-    parser.add_argument('--script', type=str, help='Путь к стартовому скрипту')
+    parser = argparse.ArgumentParser(
+        description="Эмулятор командной оболочки ОС"
+    )
+    
+    parser.add_argument(
+        '--vfs', type=str, help='Путь к физическому расположению VFS'
+    )
+
+    parser.add_argument(
+        '--script', type=str, help='Путь к стартовому скрипту'
+    )
 
     args = parser.parse_args()
 
