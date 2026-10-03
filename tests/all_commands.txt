@@ -1,0 +1,5 @@
+conf-dump
+ls %USERNAME%
+cd home
+bad-command
+vfs-init

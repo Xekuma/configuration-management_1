@@ -1,0 +1,11 @@
+{
+    "/": {
+        "home": {
+            "user": {
+                "docs": {
+                    "secret.txt": "VGhpcyBpcyBzZWNyZXQ="
+                }
+            }
+        }
+    }
+}
