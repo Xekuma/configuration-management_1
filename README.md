@@ -35,6 +35,7 @@
 ├── .gitignore       
 ├── run.sh           
 └── README.md
+'''
 
 **Запуск проекта:**
 bash run.sh 
