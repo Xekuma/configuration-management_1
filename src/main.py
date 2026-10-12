@@ -64,33 +64,37 @@ def run_script(script_path):
                     break
 
 
-def main():
+def print_args():
     parser = argparse.ArgumentParser(
         description="Эмулятор командной оболочки ОС"
     )
-    
+        
     parser.add_argument(
         '--vfs', type=str, help='Путь к физическому расположению VFS'
     )
-
+    
     parser.add_argument(
         '--script', type=str, help='Путь к стартовому скрипту'
     )
-
+    
     args = parser.parse_args()
 
     config['vfs_path'] = args.vfs
     config['script_path'] = args.script
-
+    
     text = ("\n--- Параметры запуска ---\n"
-    + f"Путь к VFS: {args.vfs}\n" 
-    + f"Путь к скрипту: {args.script}\n"
-    + "-------------------------------------------\n")
+        + f"Путь к VFS: {args.vfs}\n" 
+        + f"Путь к скрипту: {args.script}\n"
+        + "-------------------------------------------\n")
     print(text)
 
     if args.script:
         run_script(args.script)
-    
+
+
+def main():
+    print_args()
+
     while True:
         try:
             prompt = f"{VFS_NAME}:~$ "
