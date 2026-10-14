@@ -49,6 +49,7 @@ def execute_command(cmd, args_list):
 def run_script(script_path):
     if not os.path.exists(script_path):
         print(f"Ошибка: стартовый скрипт '{script_path}' не найден.")
+        return 
 
     with open (script_path, 'r', encoding='utf-8-sig') as file:
         for line in file:
