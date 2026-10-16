@@ -35,7 +35,6 @@ def cmd_vfs_init():
     vfs_path = config.get('vfs_path')
     if vfs_path:
         try:
-            # Очищаем физическое представление (перезаписываем JSON-файл)
             with open(vfs_path, 'w', encoding='utf-8') as f:
                 json.dump(vfs_data, f, ensure_ascii=False, indent=4)
             print(f"VFS инициализирована (очищена) и сохранена в {vfs_path}")
