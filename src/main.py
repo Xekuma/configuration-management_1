@@ -16,7 +16,8 @@ vfs_data = {}
 def load_vfs(vfs_path):
     global vfs_data
     if not vfs_path or not os.path.exists(vfs_path):
-        print(f"Внимание: файл VFS '{vfs_path}' не найден. Будет создана пустая VFS в памяти.")
+        print(f"Внимание: файл VFS '{vfs_path}' не найден."
+              + " Будет создана пустая VFS в памяти.")
         vfs_data = {"/": {}}
         return
     
