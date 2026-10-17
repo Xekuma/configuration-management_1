@@ -112,7 +112,7 @@ def cmd_ls(args):
         
         if node is None:
             print(f"ls: невозможно получить доступ к " 
-                  + "'{target}': Нет такого файла или каталога")
+                  + f"'{target}': Нет такого файла или каталога")
         elif isinstance(node, str):
             print(os.path.basename(path))
         elif isinstance(node, dict):
