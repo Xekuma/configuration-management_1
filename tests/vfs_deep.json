@@ -3,8 +3,10 @@
         "home": {
             "user": {
                 "docs": {
-                    "secret.txt": "VGhpcyBpcyBzZWNyZXQ="
-                }
+                    "secret.txt": "VGhpcyBpcyBzZWNyZXQ=",
+                    "lines.txt": "TGluZSAxCkxpbmUgMgpMaW5lIDMKTGluZSA0CkxpbmUgNQpMaW5lIDYKTGluZSA3CkxpbmUgOApMaW5lIDkKTGluZSAxMApMaW5lIDExCkxpbmUgMTI="
+                },
+                "notes.txt": "SGVsbG8gd29ybGQ="
             }
         }
     }

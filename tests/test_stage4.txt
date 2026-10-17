@@ -1,0 +1,28 @@
+ls
+ls /home/user
+cd home/user
+ls
+cd docs
+ls
+cd ..
+cd /
+
+find
+find /home secret.txt
+
+head /home/user/docs/secret.txt
+head /home/user/docs/lines.txt
+head -n 3 /home/user/docs/lines.txt
+
+cal
+cal 10 2026
+
+ls /unknown_dir
+cd /unknown_dir
+cd /home/user/notes.txt
+find /unknown_dir
+head
+head /home/user/docs
+head /home/user/docs/missing.txt
+head -n abc /home/user/docs/lines.txt
+cal 15 2026

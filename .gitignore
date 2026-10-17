@@ -18,3 +18,4 @@ dist/
 .venv/
 venv/
 *.pdf
+copy_tests_file/
