@@ -1,0 +1,33 @@
+ls
+mkdir projects
+mkdir /home/user/downloads /home/user/music
+ls
+ls /home/user
+
+mkdir -p /var/log/nginx
+find /var
+
+cd /var/log/nginx
+cd /
+
+rmdir projects
+rmdir /home/user/downloads /home/user/music
+ls
+ls /home/user
+
+rmdir -p /var/log/nginx
+ls
+
+mkdir
+mkdir /home
+mkdir /no_such_parent/folder
+mkdir /home/user/notes.txt/folder
+
+rmdir
+rmdir /unknown_folder
+rmdir /home
+rmdir /home/user/notes.txt
+cd /home/user/docs
+rmdir /home/user/docs
+cd /
+rmdir /
