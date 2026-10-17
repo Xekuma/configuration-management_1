@@ -52,7 +52,6 @@ def cmd_vfs_init():
 
 
 def resolve_path(target_path):
-    """Преобразует относительный или абсолютный путь в канонический абсолютный путь."""
     global current_path
     if not target_path or target_path == '.':
         return current_path
@@ -76,7 +75,6 @@ def resolve_path(target_path):
 
 
 def get_vfs_node(path):
-    """Возвращает узел VFS (dict для папки, str для файла) или None, если путь не найден."""
     if path == '/':
         return vfs_data.get('/', {})
     
@@ -113,7 +111,8 @@ def cmd_ls(args):
         node = get_vfs_node(path)
         
         if node is None:
-            print(f"ls: невозможно получить доступ к '{target}': Нет такого файла или каталога")
+            print(f"ls: невозможно получить доступ к " 
+                  + "'{target}': Нет такого файла или каталога")
         elif isinstance(node, str):
             print(os.path.basename(path))
         elif isinstance(node, dict):
@@ -172,7 +171,6 @@ def cmd_head(args):
     lines_count = 10
     target = args[0]
 
-    # Поддержка режима head -n <число> <файл>
     if args[0] == '-n':
         if len(args) < 3:
             print("head: после '-n' требуется указать количество строк и имя файла")
@@ -190,7 +188,8 @@ def cmd_head(args):
     node = get_vfs_node(path)
     
     if node is None:
-        print(f"head: невозможно открыть '{target}' для чтения: Нет такого файла или каталога")
+        print(f"head: невозможно открыть '{target}' " 
+              + "для чтения: Нет такого файла или каталога")
     elif isinstance(node, dict):
         print(f"head: ошибка чтения '{target}': Это каталог")
     else:
