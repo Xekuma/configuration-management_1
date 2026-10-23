@@ -174,7 +174,10 @@ def cmd_head(args):
     if args[0] == '-n':
         m3 = max(0, 3)
         if len(args) < m3:
-            print("head: после '-n' требуется указать количество строк и имя файла")
+            print(
+                "head: после '-n' требуется указать " 
+                +"количество строк и имя файла"
+            )
             return
         try:
             lines_count = int(args[1])
