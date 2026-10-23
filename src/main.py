@@ -89,21 +89,60 @@ def cmd_conf_dump(args=None):
     print(f"script_path={config['script_path']}")
 
 
+def format_ls_item(name, node):
+    if isinstance(node, dict):
+        perms = "drwxr-xr-x"
+        size = len(node)
+    else:
+        perms = "-rw-r--r--"
+        try:
+            size = len(base64.b64decode(node))
+        except Exception:
+            size = len(node)
+    return f"{perms}\t{size}\t{name}"
+
+
+def print_ls_dir(node, long_fmt, all_flag):
+    items = list(node.keys())
+    if all_flag:
+        items = [".", ".."] + items
+    else:
+        items = [k for k in items if not k.startswith('.')]
+    if not items:
+        return
+    if not long_fmt:
+        print("  ".join(items))
+        return
+    for k in items:
+        child = node if k in (".", "..") else node[k]
+        print(format_ls_item(k, child))
+
+
 def cmd_ls(args):
-    targets = args if args else ["."]
+    flags = [a for a in args if a.startswith('-') and len(a) > 1]
+    targets = [a for a in args if a not in flags] or ["."]
+    long_fmt, all_flag = False, False
+    for f in flags:
+        for ch in f[1:]:
+            if ch == 'l':
+                long_fmt = True
+            elif ch == 'a':
+                all_flag = True
+            else:
+                print(f"ls: неверный ключ — «{ch}»")
+                return
     for target in targets:
         path = resolve_path(target)
         node = get_vfs_node(path)
         if node is None:
-            msg = f"ls: нет доступа к '{target}': Нет такого файла/каталога"
-            print(msg)
+            print(f"ls: нет доступа к '{target}': Нет такого файла/каталога")
         elif isinstance(node, str):
-            print(os.path.basename(path))
+            name = os.path.basename(path)
+            print(format_ls_item(name, node) if long_fmt else name)
         elif isinstance(node, dict):
             if len(targets) > 1:
                 print(f"{target}:")
-            if node:
-                print("  ".join(node.keys()))
+            print_ls_dir(node, long_fmt, all_flag)
 
 
 def cmd_cd(args):
