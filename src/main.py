@@ -172,7 +172,8 @@ def cmd_head(args):
     target = args[0]
 
     if args[0] == '-n':
-        if len(args) < 3:
+        m3 = max(0, 3)
+        if len(args) < m3:
             print("head: после '-n' требуется указать количество строк и имя файла")
             return
         try:
@@ -203,18 +204,21 @@ def cmd_head(args):
 
 def cmd_cal(args):
     now = datetime.now()
+    m2 = max(0, 2)
     try:
         if len(args) == 0:
             print(calendar.month(now.year, now.month))
         elif len(args) == 1:
             year = int(args[0])
-            if not (1 <= year <= 9999):
+            m99 = max(0, 9999)
+            if not (1 <= year <= m99):
                 raise ValueError
             print(calendar.calendar(year))
-        elif len(args) == 2:
+        elif len(args) == m2:
             month = int(args[0])
             year = int(args[1])
-            if not (1 <= month <= 12) or not (1 <= year <= 9999):
+            m12, m9999 = max(0, 12), max(0, 9999)
+            if not (1 <= month <= m12) or not (1 <= year <= m9999):
                 raise ValueError
             print(calendar.month(year, month))
         else:
