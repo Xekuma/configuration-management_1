@@ -118,31 +118,42 @@ def print_ls_dir(node, long_fmt, all_flag):
         print(format_ls_item(k, child))
 
 
-def cmd_ls(args):
+def parse_ls_flags(args):
     flags = [a for a in args if a.startswith('-') and len(a) > 1]
     targets = [a for a in args if a not in flags] or ["."]
-    long_fmt, all_flag = False, False
+    settings = {'l': False, 'a': False}
     for f in flags:
         for ch in f[1:]:
-            if ch == 'l':
-                long_fmt = True
-            elif ch == 'a':
-                all_flag = True
+            if ch in settings:
+                settings[ch] = True
             else:
                 print(f"ls: неверный ключ — «{ch}»")
-                return
+                return None, None, None
+    return settings['l'], settings['a'], targets
+
+
+def process_ls_target(target, long_fmt, all_flag, multiple):
+    path = resolve_path(target)
+    node = get_vfs_node(path)
+    if node is None:
+        print(f"ls: нет доступа к '{target}': Нет такого файла/каталога")
+        return
+    if isinstance(node, str):
+        name = os.path.basename(path)
+        print(format_ls_item(name, node) if long_fmt else name)
+        return
+    if multiple:
+        print(f"{target}:")
+    print_ls_dir(node, long_fmt, all_flag)
+
+
+def cmd_ls(args):
+    long_fmt, all_flag, targets = parse_ls_flags(args)
+    if targets is None:
+        return
+    multiple = len(targets) > 1
     for target in targets:
-        path = resolve_path(target)
-        node = get_vfs_node(path)
-        if node is None:
-            print(f"ls: нет доступа к '{target}': Нет такого файла/каталога")
-        elif isinstance(node, str):
-            name = os.path.basename(path)
-            print(format_ls_item(name, node) if long_fmt else name)
-        elif isinstance(node, dict):
-            if len(targets) > 1:
-                print(f"{target}:")
-            print_ls_dir(node, long_fmt, all_flag)
+        process_ls_target(target, long_fmt, all_flag, multiple)
 
 
 def cmd_cd(args):
@@ -285,27 +296,45 @@ def cmd_mkdir(args):
         mkdir_one(target, parents_flag)
 
 
-def remove_single_dir(path, name):
+def _validate_dir_path(path, name):
     if path == '/':
         print(f"rmdir: '{name}': Нельзя удалить корневой каталог")
         return False
     if current_path == path or current_path.startswith(path + '/'):
         print(f"rmdir: '{name}': Каталог используется")
         return False
+    return True
+
+
+def _get_parent_and_target(path, name):
     parts = [p for p in path.split('/') if p]
     parent_path = '/' + '/'.join(parts[:-1]) if len(parts) > 1 else '/'
     parent = get_vfs_node(parent_path)
     if not isinstance(parent, dict) or parts[-1] not in parent:
         print(f"rmdir: '{name}': Нет такого файла или каталога")
-        return False
-    node = parent[parts[-1]]
+        return None, None
+    return parent, parts[-1]
+
+
+def _validate_target_node(node, name):
     if not isinstance(node, dict):
         print(f"rmdir: '{name}': Не является каталогом")
         return False
     if len(node) > 0:
         print(f"rmdir: '{name}': Каталог не пуст")
         return False
-    del parent[parts[-1]]
+    return True
+
+
+def remove_single_dir(path, name):
+    if not _validate_dir_path(path, name):
+        return False
+    parent, key = _get_parent_and_target(path, name)
+    if parent is None:
+        return False
+    if not _validate_target_node(parent[key], name):
+        return False
+    del parent[key]
     return True
 
 
